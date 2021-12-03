@@ -18,7 +18,6 @@ class GFWList {
       fs.readFileSync(filepath, 'utf-8'),
       'base64'
     ).toString('utf-8');
-    fs.writeFileSync('gfwlist.txt', this.gfwlist);
   }
 
   reader(name) {
