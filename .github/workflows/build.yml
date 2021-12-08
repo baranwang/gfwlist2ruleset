@@ -9,25 +9,33 @@ on:
   pull_request:
     branches: [master]
   schedule:
-    - cron: "0 0 * * *"
+    - cron: '0 0 * * *'
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
           fetch-depth: 2
           submodules: true
-      - uses: actions/setup-node@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
         with:
           node-version: 16.x
-      - run: npm run build
-      - id: diff
-        run: |
-          git diff-index --quiet HEAD -- || echo "::set-output name=has_changes::true"
-      - if: ${{ steps.diff.outputs.has_changes }}
+
+      - name: Build GFWList
+        run: npm run build
+
+      - name: Check Changes
+        id: diff
+        run: git diff-index --quiet HEAD -- || echo "::set-output name=has_changes::true"
+
+      - name: Commit Changes
+        if: ${{ steps.diff.outputs.has_changes }}
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
