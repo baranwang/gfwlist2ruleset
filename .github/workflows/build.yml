@@ -9,7 +9,7 @@ on:
   pull_request:
     branches: [master]
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
 
 jobs:
   build:
@@ -28,7 +28,10 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
-      - if: ${{ ! git diff-index --quiet HEAD -- }}
+      - id: diff
+        run: |
+          git diff-index --quiet HEAD --
+      - if: ${{ steps.diff.result }}
         run: |
           git commit -am "[build] `date`"
           git push origin master
