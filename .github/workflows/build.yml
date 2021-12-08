@@ -24,14 +24,13 @@ jobs:
         with:
           node-version: 16.x
       - run: npm run build
-      - run: |
+      - id: diff
+        run: |
+          git diff-index --quiet HEAD -- || echo "::set-output name=has_changes::true"
+      - if: ${{ steps.diff.outputs.has_changes }}
+        run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -A
-      - id: diff
-        run: |
-          git diff-index --quiet HEAD --
-      - if: ${{ steps.diff.result }}
-        run: |
           git commit -am "[build] `date`"
           git push origin master
