@@ -8,7 +8,7 @@ class GFWList {
 
   regexp = {
     url: /^https?:\/\//i,
-    domain: /^([a-z\-\d+]+\.){1,}[a-z\-\d]/i,
+    domain: /^([a-z\-\*\d+]+\.){1,}[a-z\-\d]/i,
   };
 
   reslut = new Set();
