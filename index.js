@@ -4,6 +4,7 @@ const { URL } = require('url');
 const net = require('net');
 
 const log = (...args) => console.log(new Date(), ...args);
+
 class GFWList {
   gfwlist = '';
 
